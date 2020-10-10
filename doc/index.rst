@@ -1,5 +1,5 @@
-Welcome to sphinx_code_tabs's documentation!
-============================================
+sphinx_code_tabs
+================
 
 |Version| |License| |Documentation|
 
@@ -84,14 +84,6 @@ For example, this is the source of above example:
             :title: python
 
             print("Hello, world!")
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest

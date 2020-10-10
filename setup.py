@@ -8,4 +8,7 @@ with open('sphinx_code_tabs/__init__.py', 'rb') as f:
         pass                # and return dunder-globals anyway!
 
 
-setup(version=meta['__version__'])
+setup(
+    name='sphinx_code_tabs',
+    version=meta['__version__'],
+)

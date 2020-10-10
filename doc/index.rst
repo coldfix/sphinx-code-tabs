@@ -7,6 +7,9 @@ This is a Sphinx extension that adds a directive ``code-tabs`` that creates a
 navbar above several alternative code blocks, allowing the user to switch
 between them.
 
+This can be used to e.g. show a snippet in multiple languages, on multiple
+platforms, or source and render.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -19,9 +22,6 @@ Installation
 
     pip install sphinx_code_tabs
 
-Usage
-=====
-
 To enable the extension in sphinx, simply add the package name in your
 ``conf.py`` to the list of ``extensions``:
 
@@ -33,12 +33,35 @@ To enable the extension in sphinx, simply add the package name in your
     ]
 
 
-By enabling the extension you get access to the ``code-tabs`` directive that
-declares a notebook of code block alternatives. The individual tabs must be
-created with the ``code-tab`` directive which derives from ``code-block`` and
-accepts all of its arguments.
+Usage
+=====
 
-For example:
+By enabling the extension you get access to the ``code-tabs`` directive that
+declares a notebook of code block alternatives which looks as follows:
+
+.. code-tabs::
+
+    .. code-tab:: bash
+        :title: bash
+
+        echo "Hello, World!"
+
+    .. code-tab:: c
+        :title: C/C++
+        :emphasize-lines: 2
+
+        #include <stdio.h>
+        int main() { printf("Hello, world!\n"); }
+
+    .. code-tab:: python
+        :title: python
+
+        print("Hello, world!")
+
+The individual tabs must be created with the ``code-tab`` directive which
+derives from ``code-block`` and accepts all of its arguments.
+
+For example, this is the source of above example:
 
 .. code-block:: rst
 
@@ -60,27 +83,6 @@ For example:
             :title: python
 
             print("Hello, world!")
-
-This should result in the following output:
-
-.. code-tabs::
-
-    .. code-tab:: bash
-        :title: bash
-
-        echo "Hello, World!"
-
-    .. code-tab:: c
-        :title: C/C++
-        :emphasize-lines: 2
-
-        #include <stdio.h>
-        int main() { printf("Hello, world!\n"); }
-
-    .. code-tab:: python
-        :title: python
-
-        print("Hello, world!")
 
 
 Indices and tables

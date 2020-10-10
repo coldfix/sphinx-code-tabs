@@ -7,6 +7,13 @@ This is a Sphinx extension that adds a directive ``code-tabs`` that creates a
 navbar above several alternative code blocks, allowing the user to switch
 between them.
 
+This can be used to e.g. show a snippet in multiple languages, on multiple
+platforms, or source and render.
+
+For a visual example, see `Documentation#Usage`_..
+
+.. _Documentation#Usage: https://sphinx-code-tabs.readthedocs.io/en/latest/#usage
+
 
 Installation
 ------------
@@ -29,11 +36,13 @@ To enable the extension in sphinx, simply add the package name in your
 Usage
 -----
 
-The ``code-tabs`` directive declares a notebook of code block alternatives.
-The individual tabs must be created with the ``code-tab`` directive which
-derives from ``code-block`` and accepts all of its arguments.
+By enabling the extension you get access to the ``code-tabs`` directive that
+declares a notebook of code block alternatives.
 
-For example:
+For a visual example, see `Documentation#Usage`_..
+
+The individual tabs must be created with the ``code-tab`` directive which
+derives from ``code-block`` and accepts all of its arguments:
 
 .. code-block:: rst
 

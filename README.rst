@@ -11,9 +11,7 @@ This can be used to e.g. show a snippet in multiple languages, display
 instructions for alternative platforms, or (in the future) switch between
 source and output.
 
-For a visual example, see `Documentation#Usage`_..
-
-.. _Documentation#Usage: https://sphinx-code-tabs.readthedocs.io/en/latest/#usage
+|Screenshot|
 
 
 Installation
@@ -39,8 +37,6 @@ Usage
 
 By enabling the extension you get access to the ``code-tabs`` directive that
 declares a notebook of code block alternatives.
-
-For a visual example, see `Documentation#Usage`_..
 
 The individual tabs must be created with the ``code-tab`` directive which
 derives from ``code-block`` and accepts all of its arguments:
@@ -94,3 +90,7 @@ initially include backward-incompatible changes!):
 .. |Version| image::    https://img.shields.io/pypi/v/sphinx-code-tabs.svg
    :target:             https://pypi.org/project/sphinx-code-tabs
    :alt:                Latest Version
+
+.. |Screenshot| image:: https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot.webp
+   :target:             https://sphinx-code-tabs.readthedocs.io/en/latest/#usage
+   :alt:                Screenshot (usernames were changed)

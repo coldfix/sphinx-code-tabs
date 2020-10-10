@@ -21,9 +21,10 @@ release = sphinx_code_tabs.__version__
 # -- General configuration ---------------------------------------------------
 extensions = [
     'sphinx_code_tabs',
-    'sphinx_rtd_theme',
 ]
 
+master_doc = 'index'
+source_suffix = '.rst'
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 

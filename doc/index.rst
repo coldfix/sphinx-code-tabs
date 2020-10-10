@@ -7,8 +7,9 @@ This is a Sphinx extension that adds a directive ``code-tabs`` that creates a
 navbar above several alternative code blocks, allowing the user to switch
 between them.
 
-This can be used to e.g. show a snippet in multiple languages, on multiple
-platforms, or source and render.
+This can be used to e.g. show a snippet in multiple languages, display
+instructions for alternative platforms, or (in the future) switch between
+source and output.
 
 .. toctree::
    :maxdepth: 2

@@ -1,6 +1,8 @@
 Welcome to sphinx_code_tabs's documentation!
 ============================================
 
+|Version| |License| |Documentation|
+
 This is a Sphinx extension that adds a directive ``code-tabs`` that creates a
 navbar above several alternative code blocks, allowing the user to switch
 between them.
@@ -87,3 +89,16 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+.. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest
+   :target:                 https://sphinx-code-tabs.readthedocs.io/en/latest/
+   :alt:                    Documentation
+
+.. |License| image::    https://img.shields.io/pypi/l/sphinx-code-tabs.svg
+   :target:             https://github.com/coldfix/sphinx-code-tabs/blob/master/UNLICENSE
+   :alt:                License: Unlicense
+
+.. |Version| image::    https://img.shields.io/pypi/v/sphinx-code-tabs.svg
+   :target:             https://pypi.org/project/sphinx-code-tabs
+   :alt:                Latest Version

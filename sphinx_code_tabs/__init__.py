@@ -2,14 +2,9 @@ __version__ = '0.0.1'
 
 from docutils.parsers.rst import directives, Directive
 from docutils import nodes
-from sphinx.util.osutil import copyfile, ensuredir
 from sphinx.directives.code import CodeBlock
 
 import os
-try:
-    import importlib.resources as resources
-except ImportError:
-    import importlib_resources as resources
 
 
 CSS_FILE = "code-tabs.css"
@@ -66,22 +61,9 @@ def depart_tab_html(self, node):
 
 
 def add_assets(app):
+    app.config.html_static_path.append(os.path.dirname(__file__))
     app.add_css_file(CSS_FILE)
     app.add_js_file(JS_FILE)
-
-
-def copy_assets(app, exception):
-    if app.builder.name == "html" and not exception:
-        static_dir = os.path.join(app.outdir, "_static")
-        ensuredir(static_dir)
-        copy_asset(CSS_FILE, static_dir)
-        copy_asset(JS_FILE, static_dir)
-
-
-def copy_asset(basename, outdir):
-    dest = os.path.join(outdir, basename)
-    with resources.path(__package__, basename) as source:
-        copyfile(str(source), dest)
 
 
 def setup(app):
@@ -89,4 +71,3 @@ def setup(app):
     app.add_directive("code-tabs", CodeTabs)
     app.add_directive("code-tab", CodeTab)
     app.connect("builder-inited", add_assets)
-    app.connect("build-finished", copy_assets)

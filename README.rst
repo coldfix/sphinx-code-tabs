@@ -88,7 +88,7 @@ initially include backward-incompatible changes!):
    :alt:                    Documentation
 
 .. |License| image::    https://img.shields.io/pypi/l/sphinx-code-tabs.svg
-   :target:             https://github.com/coldfix/sphinx-code-tabs/blob/master/UNLICENSE
+   :target:             https://github.com/coldfix/sphinx-code-tabs/blob/main/UNLICENSE
    :alt:                License: Unlicense
 
 .. |Version| image::    https://img.shields.io/pypi/v/sphinx-code-tabs.svg

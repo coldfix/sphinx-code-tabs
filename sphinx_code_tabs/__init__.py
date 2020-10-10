@@ -2,7 +2,7 @@ __version__ = '0.0.1'
 
 from docutils.parsers.rst import directives, Directive
 from docutils import nodes
-from sphinx.util.osutil import copyfile
+from sphinx.util.osutil import copyfile, ensuredir
 from sphinx.directives.code import CodeBlock
 
 import os
@@ -72,7 +72,8 @@ def add_assets(app):
 
 def copy_assets(app, exception):
     if app.builder.name == "html" and not exception:
-        static_dir = os.path.join(app.builder.outdir, "_static")
+        static_dir = os.path.join(app.outdir, "_static")
+        ensuredir(static_dir)
         copy_asset(CSS_FILE, static_dir)
         copy_asset(JS_FILE, static_dir)
 

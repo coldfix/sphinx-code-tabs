@@ -1,6 +1,12 @@
 CHANGES
 -------
 
+0.2.0
+~~~~~
+
+- update css for sphinx 4
+
+
 0.1.0
 ~~~~~
 

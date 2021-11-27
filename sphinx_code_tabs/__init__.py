@@ -1,8 +1,9 @@
 __version__ = '0.2.0'
 
-from docutils.parsers.rst import directives, Directive
+from docutils.parsers.rst import directives
 from docutils import nodes
 from sphinx.directives.code import CodeBlock
+from sphinx.util.docutils import SphinxDirective
 
 import os
 
@@ -22,7 +23,7 @@ _compatible_builders = [
 ]
 
 
-class CodeTabs(Directive):
+class CodeTabs(SphinxDirective):
 
     """
     This directive is used to contain a group of code blocks which can be
@@ -36,6 +37,10 @@ class CodeTabs(Directive):
         text = "\n".join(self.content)
         node = nodes.container(text)
         node["classes"].append("code-tabs")
+        if self.env.app.builder.name in _compatible_builders:
+            tabbar = TabBar()
+            tabbar["classes"].append("tabbar")
+            node.append(tabbar)
         self.add_name(node)
         self.state.nested_parse(self.content, self.content_offset, node)
         return [node]
@@ -50,18 +55,30 @@ class CodeTab(CodeBlock):
         title=directives.unchanged_required)
 
     def run(self):
+        is_supported = self.env.app.builder.name in _compatible_builders
         title = self.options.get('title')
-        index = len(self.state.parent.children)
-        state = 'selected' if index == 0 else 'hidden'
+        index = len(self.state.parent.children) - is_supported
+        selected = index == 0
         if not title and self.arguments:
             title = self.arguments[0]
         if not title:
             title = "Tab {}".format(index + 1)
-        if self.env.app.builder.name in _compatible_builders:
+        if is_supported:
+            # generate navbar button:
+            tabbutton = TabButton()
+            tabbutton['index'] = index
+            tabbutton['classes'].append("tabbutton")
+            if selected:
+                tabbutton['classes'].append('selected')
+            tabbutton.append(nodes.Text(title))
+            tabbar = self.state.parent.children[0]
+            tabbar.append(tabbutton)
+            # generate page:
             outer = Tab()
-            outer['title'] = title
             outer['index'] = index
-            outer['classes'] += ['code-tab', state]
+            outer['classes'].append('code-tab')
+            if not selected:
+                outer['classes'].append('hidden')
             outer += super().run()
             return [outer]
         else:
@@ -69,13 +86,39 @@ class CodeTab(CodeBlock):
             return super().run()
 
 
+class TabBar(nodes.Part, nodes.Element):
+    pass
+
+
+class TabButton(nodes.Part, nodes.Element):
+    pass
+
+
 class Tab(nodes.Part, nodes.Element):
     pass
 
 
+def visit_tabbar_html(self, node):
+    self.body.append(self.starttag(node, 'ul'))
+
+
+def depart_tabbar_html(self, node):
+    self.body.append('</ul>')
+
+
+def visit_tabbutton_html(self, node):
+    self.body.append(self.starttag(node, 'li', **{
+        'data-id': node.attributes['index'],
+        'onclick': "sphinx_code_tabs_onclick(this)",
+    }))
+
+
+def depart_tabbutton_html(self, node):
+    self.body.append('</li>')
+
+
 def visit_tab_html(self, node):
     self.body.append(self.starttag(node, 'div', **{
-        'data-title': node.attributes['title'],
         'data-id': node.attributes['index'],
     }))
 
@@ -91,6 +134,8 @@ def add_assets(app):
 
 
 def setup(app):
+    app.add_node(TabBar, html=(visit_tabbar_html, depart_tabbar_html))
+    app.add_node(TabButton, html=(visit_tabbutton_html, depart_tabbutton_html))
     app.add_node(Tab, html=(visit_tab_html, depart_tab_html))
     app.add_directive("code-tabs", CodeTabs)
     app.add_directive("code-tab", CodeTab)

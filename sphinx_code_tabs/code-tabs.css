@@ -9,7 +9,7 @@ div.code-tabs > ul.tabbar {
   color: #ffffff;
 }
 
-div.code-tabs > ul.tabbar > li.tabitem {
+div.code-tabs > ul.tabbar > li.tabbutton {
 	margin: 0 5px 0 0;
 	padding: 0px 10px;
 	display: block;
@@ -25,25 +25,25 @@ div.code-tabs > ul.tabbar > li.tabitem {
   transition: 0.3s;
 }
 
-.code-tabs > ul.tabbar > li.tabitem:first-of-type {
+div.code-tabs > ul.tabbar > li.tabbutton:first-of-type {
 	margin-left: 2px;
 }
-.code-tabs > ul.tabbar > li.tabitem:last-of-type {
+div.code-tabs > ul.tabbar > li.tabbutton:last-of-type {
 	margin-right: 0;
 }
-.code-tabs > ul.tabbar li.tabitem:hover {
+div.code-tabs > ul.tabbar li.tabbutton:hover {
   background-color: #606060;
 }
-.code-tabs > ul.tabbar > li.tabitem.selected {
+div.code-tabs > ul.tabbar > li.tabbutton.selected {
   background-color: #303030;
   border-color: #4070a0;
   border-size: 2px;
 }
-.code-tabs > ul.tabbar > li.tabitem.selected:hover {
+div.code-tabs > ul.tabbar > li.tabbutton.selected:hover {
 	background-color: #606060;
 }
 
-.code-tabs .code-tab > div {
+div.code-tabs > div.code-tab > div {
 	margin-top: 0;
 }
 

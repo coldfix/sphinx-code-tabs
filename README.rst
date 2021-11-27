@@ -69,8 +69,6 @@ Planned changes
 This project has just started. Planned features for the next releases (this might
 initially include backward-incompatible changes!):
 
-- prerender navbar, and CSS "hidden" classes, so that the layout doesn't change
-  during page reload
 - add mechanism to group several tab widgets together, so that the selection
   is kept in sync (which means users interested in a specific language won't
   have to change the language on each snippet individually in a longer article)

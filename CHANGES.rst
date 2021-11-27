@@ -1,6 +1,14 @@
 CHANGES
 -------
 
+v0.4.0
+~~~~~~
+Date: 27.11.2021
+
+- fix bug that selects all tab buttons on click (introduced in prerender
+  commit)
+
+
 v0.3.0
 ~~~~~~
 Date: 27.11.2021

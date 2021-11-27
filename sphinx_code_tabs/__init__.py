@@ -39,8 +39,13 @@ class CodeTab(CodeBlock):
         title=directives.unchanged_required)
 
     def run(self):
+        title = self.options.get('title')
+        if not title and self.arguments:
+            title = self.arguments[0]
+        if not title:
+            title = "Tab {}".format(len(self.state.parent.children) + 1)
         outer = Tab()
-        outer['title'] = self.options.get('title')
+        outer['title'] = title
         outer['classes'] += ['code-tab']
         outer += super().run()
         return [outer]

@@ -62,6 +62,7 @@ class CodeTab(CodeBlock):
             outer += super().run()
             return [outer]
         else:
+            self.options.setdefault('caption', title)
             return super().run()
 
 

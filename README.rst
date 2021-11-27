@@ -46,7 +46,6 @@ derives from ``code-block`` and accepts all of its arguments:
     .. code-tabs::
 
         .. code-tab:: bash
-            :caption: bash
 
             echo "Hello, World!"
 
@@ -58,7 +57,6 @@ derives from ``code-block`` and accepts all of its arguments:
             int main() { printf("Hello, world!\n"); }
 
         .. code-tab:: python
-            :caption: python
 
             print("Hello, world!")
 

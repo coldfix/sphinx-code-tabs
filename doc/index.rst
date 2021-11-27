@@ -43,7 +43,6 @@ declares a notebook of code block alternatives which looks as follows:
 .. code-tabs::
 
     .. code-tab:: bash
-        :caption: bash
 
         echo "Hello, World!"
 
@@ -55,7 +54,6 @@ declares a notebook of code block alternatives which looks as follows:
         int main() { printf("Hello, world!\n"); }
 
     .. code-tab:: python
-        :caption: python
 
         print("Hello, world!")
 
@@ -69,7 +67,6 @@ For example, this is the source of above example:
     .. code-tabs::
 
         .. code-tab:: bash
-            :caption: bash
 
             echo "Hello, World!"
 
@@ -81,7 +78,6 @@ For example, this is the source of above example:
             int main() { printf("Hello, world!\n"); }
 
         .. code-tab:: python
-            :caption: python
 
             print("Hello, world!")
 

@@ -15,8 +15,10 @@ window.addEventListener('load', function() {
   for (const book of document.querySelectorAll('div.code-tabs')) {
     let i = 0;
     let navbar = document.createElement('ul');
+    navbar.classList.add('tabbar');
     for (const page of book.children) {
       const button = document.createElement('li');
+      button.classList.add('tabitem');
       page.setAttribute('data-id', i);
 			button.setAttribute('data-id', i);
       button.onclick = onclick;

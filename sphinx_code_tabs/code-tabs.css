@@ -1,4 +1,4 @@
-.code-tabs > ul {
+div.code-tabs > ul.tabbar {
 	margin: 0;
 	padding: 0;
 	display: block;
@@ -9,7 +9,7 @@
   color: #ffffff;
 }
 
-.code-tabs > ul li {
+div.code-tabs > ul.tabbar > li.tabitem {
 	margin: 0 5px 0 0;
 	padding: 0px 10px;
 	display: block;
@@ -25,21 +25,21 @@
   transition: 0.3s;
 }
 
-.code-tabs > ul li:first-of-type {
+.code-tabs > ul.tabbar > li.tabitem:first-of-type {
 	margin-left: 2px;
 }
-.code-tabs > ul li:last-of-type {
+.code-tabs > ul.tabbar > li.tabitem:last-of-type {
 	margin-right: 0;
 }
-.code-tabs > ul li:hover {
+.code-tabs > ul.tabbar li.tabitem:hover {
   background-color: #606060;
 }
-.code-tabs > ul li.selected {
+.code-tabs > ul.tabbar > li.tabitem.selected {
   background-color: #303030;
   border-color: #4070a0;
   border-size: 2px;
 }
-.code-tabs > ul li.selected:hover {
+.code-tabs > ul.tabbar > li.tabitem.selected:hover {
 	background-color: #606060;
 }
 

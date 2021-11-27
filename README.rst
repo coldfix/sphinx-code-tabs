@@ -46,19 +46,19 @@ derives from ``code-block`` and accepts all of its arguments:
     .. code-tabs::
 
         .. code-tab:: bash
-            :title: bash
+            :caption: bash
 
             echo "Hello, World!"
 
         .. code-tab:: c
-            :title: C/C++
+            :caption: C/C++
             :emphasize-lines: 2
 
             #include <stdio.h>
             int main() { printf("Hello, world!\n"); }
 
         .. code-tab:: python
-            :title: python
+            :caption: python
 
             print("Hello, world!")
 
@@ -72,7 +72,6 @@ initially include backward-incompatible changes!):
 - add mechanism to group several tab widgets together, so that the selection
   is kept in sync (which means users interested in a specific language won't
   have to change the language on each snippet individually in a longer article)
-- adopt "caption" attribute rather using our own "title"
 - reuse "code-block" rather than introducing our own "code-tab" (?)
 - allow tabs other than code-blocks (maybe)
 

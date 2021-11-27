@@ -43,19 +43,19 @@ declares a notebook of code block alternatives which looks as follows:
 .. code-tabs::
 
     .. code-tab:: bash
-        :title: bash
+        :caption: bash
 
         echo "Hello, World!"
 
     .. code-tab:: c
-        :title: C/C++
+        :caption: C/C++
         :emphasize-lines: 2
 
         #include <stdio.h>
         int main() { printf("Hello, world!\n"); }
 
     .. code-tab:: python
-        :title: python
+        :caption: python
 
         print("Hello, world!")
 
@@ -69,19 +69,19 @@ For example, this is the source of above example:
     .. code-tabs::
 
         .. code-tab:: bash
-            :title: bash
+            :caption: bash
 
             echo "Hello, World!"
 
         .. code-tab:: c
-            :title: C/C++
+            :caption: C/C++
             :emphasize-lines: 2
 
             #include <stdio.h>
             int main() { printf("Hello, world!\n"); }
 
         .. code-tab:: python
-            :title: python
+            :caption: python
 
             print("Hello, world!")
 

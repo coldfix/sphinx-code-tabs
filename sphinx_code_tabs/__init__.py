@@ -59,6 +59,8 @@ class CodeTab(CodeBlock):
         title = self.options.get('title')
         index = len(self.state.parent.children) - is_supported
         selected = index == 0
+        if not title:
+            title = self.options.pop('caption', None)
         if not title and self.arguments:
             title = self.arguments[0]
         if not title:

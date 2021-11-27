@@ -19,12 +19,10 @@ window.addEventListener('load', function() {
     for (const page of book.children) {
       const button = document.createElement('li');
       button.classList.add('tabitem');
-      page.setAttribute('data-id', i);
 			button.setAttribute('data-id', i);
       button.onclick = onclick;
       button.innerText = page.getAttribute('data-title');
       button.classList.toggle('selected', i == 0);
-      page.classList.toggle('hidden', i != 0);
       navbar.appendChild(button);
       ++i;
     }

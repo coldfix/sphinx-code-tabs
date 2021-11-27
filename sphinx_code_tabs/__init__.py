@@ -51,14 +51,17 @@ class CodeTab(CodeBlock):
 
     def run(self):
         title = self.options.get('title')
+        index = len(self.state.parent.children)
+        state = 'selected' if index == 0 else 'hidden'
         if not title and self.arguments:
             title = self.arguments[0]
         if not title:
-            title = "Tab {}".format(len(self.state.parent.children) + 1)
+            title = "Tab {}".format(index + 1)
         if self.env.app.builder.name in _compatible_builders:
             outer = Tab()
             outer['title'] = title
-            outer['classes'] += ['code-tab']
+            outer['index'] = index
+            outer['classes'] += ['code-tab', state]
             outer += super().run()
             return [outer]
         else:
@@ -73,6 +76,7 @@ class Tab(nodes.Part, nodes.Element):
 def visit_tab_html(self, node):
     self.body.append(self.starttag(node, 'div', **{
         'data-title': node.attributes['title'],
+        'data-id': node.attributes['index'],
     }))
 
 

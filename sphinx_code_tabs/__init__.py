@@ -10,6 +10,17 @@ import os
 CSS_FILE = "code-tabs.css"
 JS_FILE = "code-tabs.js"
 
+_compatible_builders = [
+    "html",
+    "singlehtml",
+    "dirhtml",
+    "readthedocs",
+    "readthedocsdirhtml",
+    "readthedocssinglehtml",
+    "readthedocssinglehtmllocalmedia",
+    "spelling",
+]
+
 
 class CodeTabs(Directive):
 
@@ -44,11 +55,15 @@ class CodeTab(CodeBlock):
             title = self.arguments[0]
         if not title:
             title = "Tab {}".format(len(self.state.parent.children) + 1)
-        outer = Tab()
-        outer['title'] = title
-        outer['classes'] += ['code-tab']
-        outer += super().run()
-        return [outer]
+        if self.env.app.builder.name in _compatible_builders:
+            outer = Tab()
+            outer['title'] = title
+            outer['classes'] += ['code-tab']
+            outer += super().run()
+            return [outer]
+        else:
+            self.options.setdefault('caption', title)
+            return super().run()
 
 
 class Tab(nodes.Part, nodes.Element):

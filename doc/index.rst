@@ -37,49 +37,40 @@ To enable the extension in sphinx, simply add the package name in your
 Usage
 =====
 
-By enabling the extension you get access to the ``code-tabs`` directive that
-declares a notebook of code block alternatives which looks as follows:
+By enabling the extension you get access to the ``tabs`` directive that
+declares a notebook of alternative tabs which looks as follows:
 
-.. code-tabs::
+.. include:: examples/codetabs.rst
 
-    .. code-tab:: bash
+The individual tabs are created with the ``tab`` or ``code-tab`` directives. A
+``tab`` can contain arbitrary restructuredText, while a ``code-tab`` acts like
+a ``code-block`` and accepts all corresponding arguments. Both types of tabs
+can appear in the same notebook.
 
-        echo "Hello, World!"
-
-    .. code-tab:: c
-        :caption: C/C++
-        :emphasize-lines: 2
-
-        #include <stdio.h>
-        int main() { printf("Hello, world!\n"); }
-
-    .. code-tab:: python
-
-        print("Hello, world!")
-
-The individual tabs must be created with the ``code-tab`` directive which
-derives from ``code-block`` and accepts all of its arguments.
+The ``:selected:`` option allows to switch to a specified tab at start. By
+default, the first tab is used.
 
 For example, this is the source of above example:
 
-.. code-block:: rst
+.. literalinclude:: examples/codetabs.rst
+    :language: rst
 
-    .. code-tabs::
 
-        .. code-tab:: bash
+Grouped tabs
+~~~~~~~~~~~~
 
-            echo "Hello, World!"
+The ``tabs`` directive takes an optional argument that identifies its *tab
+group*. Within a given tab group, all notebooks will automatically be switched
+to the same tab number if the tab is switched in one member of the group.
+It is your responsibility to make sure that each member of the group has the
+same number and ordering of tabs. Example:
 
-        .. code-tab:: c
-            :caption: C/C++
-            :emphasize-lines: 2
+.. include:: examples/tabgroup.rst
 
-            #include <stdio.h>
-            int main() { printf("Hello, world!\n"); }
+Source:
 
-        .. code-tab:: python
-
-            print("Hello, world!")
+.. literalinclude:: examples/tabgroup.rst
+    :language: rst
 
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest

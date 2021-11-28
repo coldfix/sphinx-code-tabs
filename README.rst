@@ -35,43 +35,80 @@ To enable the extension in sphinx, simply add the package name in your
 Usage
 -----
 
-By enabling the extension you get access to the ``code-tabs`` directive that
+By enabling the extension you get access to the ``tabs`` directive that
 declares a notebook of code block alternatives.
 
-The individual tabs must be created with the ``code-tab`` directive which
-derives from ``code-block`` and accepts all of its arguments:
+The individual tabs are created with the ``tab`` or ``code-tab`` directives. A
+``tab`` can contain arbitrary restructuredText, while a ``code-tab`` acts like
+a ``code-block`` and accepts all corresponding arguments. Both types of tabs
+can appear in the same notebook.
+
+The ``:selected:`` option allows to switch to a specified tab at start. By
+default, the first tab is used.
+
+For example, this is the source of above example:
 
 .. code-block:: rst
 
-    .. code-tabs::
+    .. tabs::
 
         .. code-tab:: bash
 
-            echo "Hello, World!"
+            echo "Hello, *World*!"
 
         .. code-tab:: c
             :caption: C/C++
             :emphasize-lines: 2
 
             #include <stdio.h>
-            int main() { printf("Hello, world!\n"); }
+            int main() { printf("Hello, *World*!\n"); }
 
         .. code-tab:: python
 
-            print("Hello, world!")
+            print("Hello, *World*!")
+
+        .. tab:: Output
+            :selected:
+
+            Hello, *World*!
 
 
-Planned changes
----------------
+Grouped tabs
+~~~~~~~~~~~~
 
-This project has just started. Planned features for the next releases (this might
-initially include backward-incompatible changes!):
+The ``tabs`` directive takes an optional argument that identifies its *tab
+group*. Within a given tab group, all notebooks will automatically be switched
+to the same tab number if the tab is switched in one member of the group.
+It is your responsibility to make sure that each member of the group has the
+same number and ordering of tabs. Example:
 
-- add mechanism to group several tab widgets together, so that the selection
-  is kept in sync (which means users interested in a specific language won't
-  have to change the language on each snippet individually in a longer article)
-- reuse "code-block" rather than introducing our own "code-tab" (?)
-- allow tabs other than code-blocks (maybe)
+|Tabgroup|
+
+Source:
+
+.. code-block:: rst
+
+    .. tabs:: lang
+
+        .. code-tab:: bash
+
+            echo "Hello, group!"
+
+        .. code-tab:: python
+
+            print("Hello, group!")
+
+
+    .. tabs:: lang
+
+        .. code-tab:: bash
+
+            echo "Goodbye, group!"
+
+        .. code-tab:: python
+
+            print("Goodbye, group!")
+
 
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest
@@ -86,6 +123,10 @@ initially include backward-incompatible changes!):
    :target:             https://pypi.org/project/sphinx-code-tabs
    :alt:                Latest Version
 
-.. |Screenshot| image:: https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot.webp
+.. |Screenshot| image:: https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot1.webp
    :target:             https://sphinx-code-tabs.readthedocs.io/en/latest/#usage
-   :alt:                Screenshot (usernames were changed)
+   :alt:                Code tabs screenshot
+
+.. |Tabgroup| image::   https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot2.webp
+   :target:             https://sphinx-code-tabs.readthedocs.io/en/latest/#grouped-tabs
+   :alt:                Grouped tabs screenshot

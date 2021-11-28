@@ -3,13 +3,12 @@ sphinx code tabs
 
 |Version| |License| |Documentation|
 
-This is a Sphinx extension that adds a directive ``code-tabs`` that creates a
-navbar above several alternative code blocks, allowing the user to switch
-between them.
+This is a Sphinx extension that adds a ``tabs`` directive for creating a
+tabbed widget, allowing the user to switch between them. The individual tabs
+can be code blocks or general content.
 
 This can be used to e.g. show a snippet in multiple languages, display
-instructions for alternative platforms, or (in the future) switch between
-source and output.
+instructions for alternative platforms, or switch between code and output.
 
 |Screenshot|
 

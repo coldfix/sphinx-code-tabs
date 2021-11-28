@@ -30,7 +30,13 @@ _latex_builders = [
 ]
 
 
-class Tabs(SphinxDirective):
+class TabsNode(nodes.container): pass
+class TabNode(nodes.container): pass
+class TabBarNode(nodes.Part, nodes.Element): pass
+class TabButtonNode(nodes.Part, nodes.Element): pass
+
+
+class TabsDirective(SphinxDirective):
 
     """
     This directive is used to contain a group of code blocks which can be
@@ -44,28 +50,37 @@ class Tabs(SphinxDirective):
 
     def run(self):
         self.assert_has_content()
-        text = "\n".join(self.content)
-        node = TabGroup(text)
+
+        node = TabsNode()
         node["classes"].append("tabs")
         node["tabgroup"] = self.arguments[0] if self.arguments else None
-        if self.env.app.builder.name in _html_builders:
-            tabbar = TabBar()
-            tabbar["classes"].append("tabbar")
-            node.append(tabbar)
+
         self.add_name(node)
         self.state.nested_parse(self.content, self.content_offset, node)
 
-        selected = node.get("selected", 0)
+        # Generate navbar:
         if self.env.app.builder.name in _html_builders:
+            tabbar = TabBarNode()
+            tabbar["classes"].append("tabbar")
+
+            selected = 0
+            for i, tab in enumerate(node.children):
+                button = TabButtonNode()
+                button['classes'].append('tabbutton')
+                button['tabid'] = i
+                button.append(nodes.Text(tab["tabname"]))
+                tabbar.append(button)
+                if tab.get('selected'):
+                    selected = i
+
             tabbar.children[selected]['classes'].append('selected')
-            node.children[1 + selected]['classes'].append('selected')
-        else:
             node.children[selected]['classes'].append('selected')
+            node.insert(0, tabbar)
 
         return [node]
 
 
-class Tab(SphinxDirective):
+class TabDirective(SphinxDirective):
 
     option_spec = {
         'selected': directives.flag,
@@ -77,48 +92,33 @@ class Tab(SphinxDirective):
     has_content = True
 
     def run(self):
-        is_supported = self.env.app.builder.name in _html_builders
+        index = len(self.state.parent.children)
+
         title = self.options.get('title')
-        index = len(self.state.parent.children) - is_supported
-        if 'selected' in self.options:
-            self.state.parent['selected'] = index
         if not title:
-            title = self.options.pop('caption', None)
+            title = self.options.get('caption')
         if not title and self.arguments:
             title = self.arguments[0]
         if not title:
             title = "Tab {}".format(index + 1)
-        if is_supported:
-            # generate navbar button:
-            tabbutton = TabButton()
-            tabbutton['index'] = index
-            tabbutton['classes'].append("tabbutton")
-            tabbutton.append(nodes.Text(title))
-            tabbar = self.state.parent.children[0]
-            tabbar.append(tabbutton)
-            # generate page:
-            outer = TabNode()
-            outer['index'] = index
-            outer['classes'].append('tab')
-        else:
-            self.options.setdefault('caption', title)
-            outer = nodes.container()
 
-        self.make_page(outer, title)
-        return [outer]
+        node = TabNode()
+        node['tabid'] = index
+        node['tabname'] = title
+        node['selected'] = 'selected' in self.options
+        node['classes'].append('tab')
+        node += self.make_page(node)
 
-    def make_page(self, node, title):
-        if self.env.app.builder.name in _latex_builders:
-            page = TabNode()
-            page['title'] = title
-        else:
-            page = nodes.container("\n".join(self.content))
-            page['classes'].append("nocode")
-        node.append(page)
+        return [node]
+
+    def make_page(self, node):
+        node['classes'].append("texttab")
+        page = nodes.container()
         self.state.nested_parse(self.content, self.content_offset, page)
+        return page
 
 
-class CodeTab(CodeBlock):
+class CodeTabDirective(CodeBlock):
 
     """Single code-block tab inside .. code-tabs."""
 
@@ -128,31 +128,20 @@ class CodeTab(CodeBlock):
         'selected': directives.flag,
     })
 
-    run = Tab.run
+    run = TabDirective.run
 
-    def make_page(self, node, title):
-        node += super().run()
-
-
-class TabGroup(nodes.container):
-    pass
-
-
-class TabBar(nodes.Part, nodes.Element):
-    pass
-
-
-class TabButton(nodes.Part, nodes.Element):
-    pass
-
-
-class TabNode(nodes.Part, nodes.Element):
-    pass
+    def make_page(self, node):
+        node['classes'].append("codetab")
+        if self.env.app.builder.name in _html_builders:
+            self.options.pop('caption', None)
+        else:
+            self.options.setdefault('caption', node['tabname'])
+        return super().run()
 
 
 def visit_tabgroup_html(self, node):
     self.body.append(self.starttag(node, 'div', **{
-        'data-tabgroup': node.attributes['tabgroup'] or '',
+        'data-tabgroup': node['tabgroup'] or '',
         'class': 'docutils container',
     }))
 
@@ -171,7 +160,7 @@ def depart_tabbar_html(self, node):
 
 def visit_tabbutton_html(self, node):
     self.body.append(self.starttag(node, 'li', **{
-        'data-id': node.attributes['index'],
+        'data-id': node['tabid'],
         'onclick': "sphinx_code_tabs_onclick(this)",
     }))
 
@@ -182,7 +171,7 @@ def depart_tabbutton_html(self, node):
 
 def visit_tab_html(self, node):
     self.body.append(self.starttag(node, 'div', **{
-        'data-id': node.attributes['index'],
+        'data-id': node['tabid'],
     }))
 
 
@@ -191,14 +180,16 @@ def depart_tab_html(self, node):
 
 
 def visit_tab_latex(self, node):
-    self.body.append(r'\sphinxSetupCaptionForVerbatim{{{}}}'.format(
-        latex_escape(node.attributes['title'], self.config.latex_engine),
-    ))
-    self.body.append(r'\begin{tab}')
+    if 'texttab' in node['classes']:
+        self.body.append(r'\sphinxSetupCaptionForVerbatim{{{}}}'.format(
+            latex_escape(node['tabname'], self.config.latex_engine),
+        ))
+        self.body.append(r'\begin{tab}')
 
 
 def depart_tab_latex(self, node):
-    self.body.append(r'\end{tab}')
+    if 'texttab' in node['classes']:
+        self.body.append(r'\end{tab}')
 
 
 def add_assets(app):
@@ -214,15 +205,17 @@ def add_assets(app):
 
 
 def setup(app):
-    app.add_node(TabGroup, html=(visit_tabgroup_html, depart_tabgroup_html))
-    app.add_node(TabBar, html=(visit_tabbar_html, depart_tabbar_html))
-    app.add_node(TabButton, html=(visit_tabbutton_html, depart_tabbutton_html))
+    app.add_node(TabsNode, html=(visit_tabgroup_html, depart_tabgroup_html))
+    app.add_node(TabBarNode, html=(visit_tabbar_html, depart_tabbar_html))
+    app.add_node(
+        TabButtonNode,
+        html=(visit_tabbutton_html, depart_tabbutton_html))
     app.add_node(
         TabNode,
         html=(visit_tab_html, depart_tab_html),
         latex=(visit_tab_latex, depart_tab_latex))
-    app.add_directive("tabs", Tabs)
-    app.add_directive("tab", Tab)
-    app.add_directive("code-tabs", Tabs)
-    app.add_directive("code-tab", CodeTab)
+    app.add_directive("tabs", TabsDirective)
+    app.add_directive("tab", TabDirective)
+    app.add_directive("code-tabs", TabsDirective)
+    app.add_directive("code-tab", CodeTabDirective)
     app.connect("builder-inited", add_assets)

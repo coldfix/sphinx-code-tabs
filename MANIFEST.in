@@ -1,2 +1,2 @@
 include README.rst UNLICENSE
-recursive-include sphinx_code_tabs *.css *.js
+recursive-include sphinx_code_tabs *.css *.js *.sty

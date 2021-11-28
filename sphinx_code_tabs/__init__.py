@@ -4,14 +4,17 @@ from docutils.parsers.rst import directives
 from docutils import nodes
 from sphinx.directives.code import CodeBlock
 from sphinx.util.docutils import SphinxDirective
+from sphinx.util.fileutil import copy_asset_file
+from sphinx.util.texescape import escape as latex_escape
 
 import os
 
 
 CSS_FILE = "code-tabs.css"
 JS_FILE = "code-tabs.js"
+STY_FILE = "tabenv.sty"
 
-_compatible_builders = [
+_html_builders = [
     "html",
     "singlehtml",
     "dirhtml",
@@ -20,6 +23,10 @@ _compatible_builders = [
     "readthedocssinglehtml",
     "readthedocssinglehtmllocalmedia",
     "spelling",
+]
+
+_latex_builders = [
+    "latex",
 ]
 
 
@@ -41,7 +48,7 @@ class Tabs(SphinxDirective):
         node = TabGroup(text)
         node["classes"].append("tabs")
         node["tabgroup"] = self.arguments[0] if self.arguments else None
-        if self.env.app.builder.name in _compatible_builders:
+        if self.env.app.builder.name in _html_builders:
             tabbar = TabBar()
             tabbar["classes"].append("tabbar")
             node.append(tabbar)
@@ -49,7 +56,7 @@ class Tabs(SphinxDirective):
         self.state.nested_parse(self.content, self.content_offset, node)
 
         selected = node.get("selected", 0)
-        if self.env.app.builder.name in _compatible_builders:
+        if self.env.app.builder.name in _html_builders:
             tabbar.children[selected]['classes'].append('selected')
             node.children[1 + selected]['classes'].append('selected')
         else:
@@ -70,7 +77,7 @@ class Tab(SphinxDirective):
     has_content = True
 
     def run(self):
-        is_supported = self.env.app.builder.name in _compatible_builders
+        is_supported = self.env.app.builder.name in _html_builders
         title = self.options.get('title')
         index = len(self.state.parent.children) - is_supported
         if 'selected' in self.options:
@@ -97,12 +104,16 @@ class Tab(SphinxDirective):
             self.options.setdefault('caption', title)
             outer = nodes.container()
 
-        self.make_page(outer)
+        self.make_page(outer, title)
         return [outer]
 
-    def make_page(self, node):
-        page = nodes.container("\n".join(self.content))
-        page['classes'].append("nocode")
+    def make_page(self, node, title):
+        if self.env.app.builder.name in _latex_builders:
+            page = TabNode()
+            page['title'] = title
+        else:
+            page = nodes.container("\n".join(self.content))
+            page['classes'].append("nocode")
         node.append(page)
         self.state.nested_parse(self.content, self.content_offset, page)
 
@@ -119,7 +130,7 @@ class CodeTab(CodeBlock):
 
     run = Tab.run
 
-    def make_page(self, node):
+    def make_page(self, node, title):
         node += super().run()
 
 
@@ -179,17 +190,37 @@ def depart_tab_html(self, node):
     self.body.append('</div>')
 
 
+def visit_tab_latex(self, node):
+    self.body.append(r'\sphinxSetupCaptionForVerbatim{{{}}}'.format(
+        latex_escape(node.attributes['title'], self.config.latex_engine),
+    ))
+    self.body.append(r'\begin{tab}')
+
+
+def depart_tab_latex(self, node):
+    self.body.append(r'\end{tab}')
+
+
 def add_assets(app):
-    app.config.html_static_path.append(os.path.dirname(__file__))
+    package_dir = os.path.dirname(__file__)
+    app.config.html_static_path.append(package_dir)
     app.add_css_file(CSS_FILE)
     app.add_js_file(JS_FILE)
+    if app.builder.name in _latex_builders:
+        copy_asset_file(
+            os.path.join(package_dir, STY_FILE),
+            app.builder.outdir)
+        app.add_latex_package('tabenv')
 
 
 def setup(app):
     app.add_node(TabGroup, html=(visit_tabgroup_html, depart_tabgroup_html))
     app.add_node(TabBar, html=(visit_tabbar_html, depart_tabbar_html))
     app.add_node(TabButton, html=(visit_tabbutton_html, depart_tabbutton_html))
-    app.add_node(TabNode, html=(visit_tab_html, depart_tab_html))
+    app.add_node(
+        TabNode,
+        html=(visit_tab_html, depart_tab_html),
+        latex=(visit_tab_latex, depart_tab_latex))
     app.add_directive("tabs", Tabs)
     app.add_directive("tab", Tab)
     app.add_directive("code-tabs", Tabs)

@@ -109,6 +109,19 @@ Source:
             print("Goodbye, group!")
 
 
+Alternatives
+------------
+
+After creating this package, I found other packages which are functionally
+similar or equivalent. You may want to check them out if sphinx-code-tabs
+doesn't fit your needs:
+
+- sphinx_tabs_
+- sphinx_inline_tabs_
+
+.. _sphinx_tabs: https://pypi.org/project/sphinx-tabs/
+.. _sphinx_inline_tabs: https://pypi.org/project/sphinx-inline-tabs/
+
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest
    :target:                 https://sphinx-code-tabs.readthedocs.io/en/latest/

@@ -1,6 +1,19 @@
 CHANGES
 -------
 
+v0.5.0
+~~~~~~
+Date: 28.11.2021
+
+- add ``tab`` directive for arbitrary (non-code) content
+- add ``tabs`` directive and make ``code-tabs`` a backward-compatibility alias
+  of ``tabs``, to account for the new more general tab containers
+- make the ``:title:`` option no longer required (wasn't enforced anyway by
+  sphinx)
+- add grouped tabs
+- make non-code tabs look better in latex output by boxing them like listings
+
+
 v0.4.0
 ~~~~~~
 Date: 27.11.2021

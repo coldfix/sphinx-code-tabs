@@ -1,4 +1,4 @@
-__version__ = '0.4.0'
+__version__ = '0.5.0'
 
 from docutils.parsers.rst import directives
 from docutils import nodes

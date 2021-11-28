@@ -1,6 +1,13 @@
 CHANGES
 -------
 
+v0.5.1
+~~~~~~
+Date: 28.11.2021
+
+- update description for landing page
+
+
 v0.5.0
 ~~~~~~
 Date: 28.11.2021

@@ -5,9 +5,16 @@ from docutils import nodes
 from sphinx.directives.code import CodeBlock
 from sphinx.util.docutils import SphinxDirective
 from sphinx.util.fileutil import copy_asset_file
-from sphinx.util.texescape import escape as latex_escape
 
 import os
+
+try:
+    from sphinx.util.texescape import escape as latex_escape
+except ImportError:     # ancient sphinx:
+    from sphinx.util.texescape import tex_escape_map
+
+    def latex_escape(s, latex_engine):
+        return s.translate(tex_escape_map)
 
 
 CSS_FILE = "code-tabs.css"

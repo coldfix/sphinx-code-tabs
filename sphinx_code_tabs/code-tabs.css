@@ -1,4 +1,4 @@
-div.code-tabs > ul.tabbar {
+div.tabs > ul.tabbar {
 	margin: 0;
 	padding: 0;
 	display: block;
@@ -9,7 +9,7 @@ div.code-tabs > ul.tabbar {
   color: #ffffff;
 }
 
-div.code-tabs > ul.tabbar > li.tabbutton {
+div.tabs > ul.tabbar > li.tabbutton {
 	margin: 0 5px 0 0;
 	padding: 0px 10px;
 	display: block;
@@ -25,26 +25,36 @@ div.code-tabs > ul.tabbar > li.tabbutton {
   transition: 0.3s;
 }
 
-div.code-tabs > ul.tabbar > li.tabbutton:first-of-type {
+div.tabs > ul.tabbar > li.tabbutton:first-of-type {
 	margin-left: 2px;
 }
-div.code-tabs > ul.tabbar > li.tabbutton:last-of-type {
+div.tabs > ul.tabbar > li.tabbutton:last-of-type {
 	margin-right: 0;
 }
-div.code-tabs > ul.tabbar li.tabbutton:hover {
+div.tabs > ul.tabbar li.tabbutton:hover {
   background-color: #606060;
 }
-div.code-tabs > ul.tabbar > li.tabbutton.selected {
+div.tabs > ul.tabbar > li.tabbutton.selected {
   background-color: #303030;
   border-color: #4070a0;
   border-size: 2px;
 }
-div.code-tabs > ul.tabbar > li.tabbutton.selected:hover {
+div.tabs > ul.tabbar > li.tabbutton.selected:hover {
 	background-color: #606060;
 }
 
-div.code-tabs > div.code-tab > div {
+div.tabs > div.tab > div {
 	margin-top: 0;
+  margin-bottom: 24px;
+  border: 1px solid #e1e4e5;
+}
+
+div.tabs > div.tab > div.nocode {
+	padding: 12px;
+}
+
+div.tabs > div.tab > div.nocode > :last-child {
+  margin-bottom: 0;
 }
 
 div.hidden {

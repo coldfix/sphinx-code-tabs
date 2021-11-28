@@ -37,13 +37,15 @@ To enable the extension in sphinx, simply add the package name in your
 Usage
 =====
 
-By enabling the extension you get access to the ``code-tabs`` directive that
-declares a notebook of code block alternatives which looks as follows:
+By enabling the extension you get access to the ``tabs`` directive that
+declares a notebook of alternative tabs which looks as follows:
 
 .. include:: examples/codetabs.rst
 
-The individual tabs must be created with the ``code-tab`` directive which
-derives from ``code-block`` and accepts all of its arguments.
+The individual tabs are created with the ``tab`` or ``code-tab`` directives. A
+``tab`` can contain arbitrary restructuredText, while a ``code-tab`` acts like
+a ``code-block`` and accepts all corresponding arguments. Both types of tabs
+can appear in the same notebook.
 
 For example, this is the source of above example:
 

@@ -23,7 +23,7 @@ _compatible_builders = [
 ]
 
 
-class CodeTabs(SphinxDirective):
+class Tabs(SphinxDirective):
 
     """
     This directive is used to contain a group of code blocks which can be
@@ -36,7 +36,7 @@ class CodeTabs(SphinxDirective):
         self.assert_has_content()
         text = "\n".join(self.content)
         node = nodes.container(text)
-        node["classes"].append("code-tabs")
+        node["classes"].append("tabs")
         if self.env.app.builder.name in _compatible_builders:
             tabbar = TabBar()
             tabbar["classes"].append("tabbar")
@@ -46,13 +46,12 @@ class CodeTabs(SphinxDirective):
         return [node]
 
 
-class CodeTab(CodeBlock):
+class Tab(SphinxDirective):
 
-    """Single code-block tab inside .. code-tabs."""
-
-    option_spec = dict(
-        CodeBlock.option_spec,
-        title=directives.unchanged_required)
+    final_argument_whitespace = True
+    required_arguments = 1
+    optional_arguments = 0
+    has_content = True
 
     def run(self):
         is_supported = self.env.app.builder.name in _compatible_builders
@@ -76,16 +75,37 @@ class CodeTab(CodeBlock):
             tabbar = self.state.parent.children[0]
             tabbar.append(tabbutton)
             # generate page:
-            outer = Tab()
+            outer = TabNode()
             outer['index'] = index
-            outer['classes'].append('code-tab')
+            outer['classes'].append('tab')
             if not selected:
                 outer['classes'].append('hidden')
-            outer += super().run()
-            return [outer]
         else:
             self.options.setdefault('caption', title)
-            return super().run()
+            outer = nodes.container()
+
+        self.make_page(outer)
+        return [outer]
+
+    def make_page(self, node):
+        page = nodes.container("\n".join(self.content))
+        page['classes'].append("nocode")
+        node.append(page)
+        self.state.nested_parse(self.content, self.content_offset, page)
+
+
+class CodeTab(CodeBlock):
+
+    """Single code-block tab inside .. code-tabs."""
+
+    option_spec = dict(
+        CodeBlock.option_spec,
+        title=directives.unchanged_required)
+
+    run = Tab.run
+
+    def make_page(self, node):
+        node += super().run()
 
 
 class TabBar(nodes.Part, nodes.Element):
@@ -96,7 +116,7 @@ class TabButton(nodes.Part, nodes.Element):
     pass
 
 
-class Tab(nodes.Part, nodes.Element):
+class TabNode(nodes.Part, nodes.Element):
     pass
 
 
@@ -138,7 +158,9 @@ def add_assets(app):
 def setup(app):
     app.add_node(TabBar, html=(visit_tabbar_html, depart_tabbar_html))
     app.add_node(TabButton, html=(visit_tabbutton_html, depart_tabbutton_html))
-    app.add_node(Tab, html=(visit_tab_html, depart_tab_html))
-    app.add_directive("code-tabs", CodeTabs)
+    app.add_node(TabNode, html=(visit_tab_html, depart_tab_html))
+    app.add_directive("tabs", Tabs)
+    app.add_directive("tab", Tab)
+    app.add_directive("code-tabs", Tabs)
     app.add_directive("code-tab", CodeTab)
     app.connect("builder-inited", add_assets)

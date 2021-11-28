@@ -35,30 +35,38 @@ To enable the extension in sphinx, simply add the package name in your
 Usage
 -----
 
-By enabling the extension you get access to the ``code-tabs`` directive that
+By enabling the extension you get access to the ``tabs`` directive that
 declares a notebook of code block alternatives.
 
-The individual tabs must be created with the ``code-tab`` directive which
-derives from ``code-block`` and accepts all of its arguments:
+The individual tabs are created with the ``tab`` or ``code-tab`` directives. A
+``tab`` can contain arbitrary restructuredText, while a ``code-tab`` acts like
+a ``code-block`` and accepts all corresponding arguments. Both types of tabs
+can appear in the same notebook.
+
+For example, this is the source of above example:
 
 .. code-block:: rst
 
-    .. code-tabs::
+    .. tabs::
 
         .. code-tab:: bash
 
-            echo "Hello, World!"
+            echo "Hello, *World*!"
 
         .. code-tab:: c
             :caption: C/C++
             :emphasize-lines: 2
 
             #include <stdio.h>
-            int main() { printf("Hello, world!\n"); }
+            int main() { printf("Hello, *World*!\n"); }
 
         .. code-tab:: python
 
-            print("Hello, world!")
+            print("Hello, *World*!")
+
+        .. tab:: Output
+
+            Hello, *World*!
 
 
 Planned changes
@@ -71,7 +79,6 @@ initially include backward-incompatible changes!):
   is kept in sync (which means users interested in a specific language won't
   have to change the language on each snippet individually in a longer article)
 - reuse "code-block" rather than introducing our own "code-tab" (?)
-- allow tabs other than code-blocks (maybe)
 
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest
@@ -88,4 +95,4 @@ initially include backward-incompatible changes!):
 
 .. |Screenshot| image:: https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot.webp
    :target:             https://sphinx-code-tabs.readthedocs.io/en/latest/#usage
-   :alt:                Screenshot (usernames were changed)
+   :alt:                Code tabs screenshot

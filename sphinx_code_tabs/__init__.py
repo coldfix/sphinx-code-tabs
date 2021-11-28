@@ -100,7 +100,7 @@ class CodeTab(CodeBlock):
 
     option_spec = dict(
         CodeBlock.option_spec,
-        title=directives.unchanged_required)
+        title=directives.unchanged)
 
     run = Tab.run
 

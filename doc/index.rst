@@ -56,6 +56,23 @@ For example, this is the source of above example:
     :language: rst
 
 
+Grouped tabs
+~~~~~~~~~~~~
+
+The ``tabs`` directive takes an optional argument that identifies its *tab
+group*. Within a given tab group, all notebooks will automatically be switched
+to the same tab number if the tab is switched in one member of the group.
+It is your responsibility to make sure that each member of the group has the
+same number and ordering of tabs. Example:
+
+.. include:: examples/tabgroup.rst
+
+Source:
+
+.. literalinclude:: examples/tabgroup.rst
+    :language: rst
+
+
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest
    :target:                 https://sphinx-code-tabs.readthedocs.io/en/latest/
    :alt:                    Documentation

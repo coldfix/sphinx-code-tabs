@@ -30,13 +30,17 @@ class Tabs(SphinxDirective):
     selected as tabs of a single notebook.
     """
 
+    final_argument_whitespace = True
+    required_arguments = 0
+    optional_arguments = 1
     has_content = True
 
     def run(self):
         self.assert_has_content()
         text = "\n".join(self.content)
-        node = nodes.container(text)
+        node = TabGroup(text)
         node["classes"].append("tabs")
+        node["tabgroup"] = self.arguments[0] if self.arguments else None
         if self.env.app.builder.name in _compatible_builders:
             tabbar = TabBar()
             tabbar["classes"].append("tabbar")
@@ -119,6 +123,10 @@ class CodeTab(CodeBlock):
         node += super().run()
 
 
+class TabGroup(nodes.container):
+    pass
+
+
 class TabBar(nodes.Part, nodes.Element):
     pass
 
@@ -129,6 +137,17 @@ class TabButton(nodes.Part, nodes.Element):
 
 class TabNode(nodes.Part, nodes.Element):
     pass
+
+
+def visit_tabgroup_html(self, node):
+    self.body.append(self.starttag(node, 'div', **{
+        'data-tabgroup': node.attributes['tabgroup'] or '',
+        'class': 'docutils container',
+    }))
+
+
+def depart_tabgroup_html(self, node):
+    self.body.append('</div>')
 
 
 def visit_tabbar_html(self, node):
@@ -167,6 +186,7 @@ def add_assets(app):
 
 
 def setup(app):
+    app.add_node(TabGroup, html=(visit_tabgroup_html, depart_tabgroup_html))
     app.add_node(TabBar, html=(visit_tabbar_html, depart_tabbar_html))
     app.add_node(TabButton, html=(visit_tabbutton_html, depart_tabbutton_html))
     app.add_node(TabNode, html=(visit_tab_html, depart_tab_html))

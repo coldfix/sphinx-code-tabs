@@ -73,16 +73,42 @@ For example, this is the source of above example:
             Hello, *World*!
 
 
-Planned changes
----------------
+Grouped tabs
+~~~~~~~~~~~~
 
-This project has just started. Planned features for the next releases (this might
-initially include backward-incompatible changes!):
+The ``tabs`` directive takes an optional argument that identifies its *tab
+group*. Within a given tab group, all notebooks will automatically be switched
+to the same tab number if the tab is switched in one member of the group.
+It is your responsibility to make sure that each member of the group has the
+same number and ordering of tabs. Example:
 
-- add mechanism to group several tab widgets together, so that the selection
-  is kept in sync (which means users interested in a specific language won't
-  have to change the language on each snippet individually in a longer article)
-- reuse "code-block" rather than introducing our own "code-tab" (?)
+|Tabgroup|
+
+Source:
+
+.. code-block:: rst
+
+    .. tabs:: lang
+
+        .. code-tab:: bash
+
+            echo "Hello, group!"
+
+        .. code-tab:: python
+
+            print("Hello, group!")
+
+
+    .. tabs:: lang
+
+        .. code-tab:: bash
+
+            echo "Goodbye, group!"
+
+        .. code-tab:: python
+
+            print("Goodbye, group!")
+
 
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest
@@ -97,6 +123,10 @@ initially include backward-incompatible changes!):
    :target:             https://pypi.org/project/sphinx-code-tabs
    :alt:                Latest Version
 
-.. |Screenshot| image:: https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot.webp
+.. |Screenshot| image:: https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot1.webp
    :target:             https://sphinx-code-tabs.readthedocs.io/en/latest/#usage
    :alt:                Code tabs screenshot
+
+.. |Tabgroup| image::   https://raw.githubusercontent.com/coldfix/sphinx-code-tabs/main/screenshot2.webp
+   :target:             https://sphinx-code-tabs.readthedocs.io/en/latest/#grouped-tabs
+   :alt:                Grouped tabs screenshot

@@ -1,6 +1,13 @@
 CHANGES
 -------
 
+v0.5.3
+~~~~~~
+Date: 28.11.2021
+
+- fix CHANGES to appear in long description
+
+
 v0.5.2
 ~~~~~~
 Date: 28.11.2021

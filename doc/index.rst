@@ -40,46 +40,15 @@ Usage
 By enabling the extension you get access to the ``code-tabs`` directive that
 declares a notebook of code block alternatives which looks as follows:
 
-.. code-tabs::
-
-    .. code-tab:: bash
-
-        echo "Hello, World!"
-
-    .. code-tab:: c
-        :caption: C/C++
-        :emphasize-lines: 2
-
-        #include <stdio.h>
-        int main() { printf("Hello, world!\n"); }
-
-    .. code-tab:: python
-
-        print("Hello, world!")
+.. include:: examples/codetabs.rst
 
 The individual tabs must be created with the ``code-tab`` directive which
 derives from ``code-block`` and accepts all of its arguments.
 
 For example, this is the source of above example:
 
-.. code-block:: rst
-
-    .. code-tabs::
-
-        .. code-tab:: bash
-
-            echo "Hello, World!"
-
-        .. code-tab:: c
-            :caption: C/C++
-            :emphasize-lines: 2
-
-            #include <stdio.h>
-            int main() { printf("Hello, world!\n"); }
-
-        .. code-tab:: python
-
-            print("Hello, world!")
+.. literalinclude:: examples/codetabs.rst
+    :language: rst
 
 
 .. |Documentation| image::  https://readthedocs.org/projects/sphinx-code-tabs/badge/?version=latest

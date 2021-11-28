@@ -1,6 +1,13 @@
 CHANGES
 -------
 
+v0.5.2
+~~~~~~
+Date: 28.11.2021
+
+- fix ImportError triggered on readthedocs due to ancient sphinx version (v1.8)
+
+
 v0.5.1
 ~~~~~~
 Date: 28.11.2021

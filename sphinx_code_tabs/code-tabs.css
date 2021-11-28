@@ -57,6 +57,6 @@ div.tabs > div.tab > div.nocode > :last-child {
   margin-bottom: 0;
 }
 
-div.hidden {
+div.tabs > div.tab:not(.selected) {
   display: none;
 }

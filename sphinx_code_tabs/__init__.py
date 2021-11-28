@@ -43,10 +43,22 @@ class Tabs(SphinxDirective):
             node.append(tabbar)
         self.add_name(node)
         self.state.nested_parse(self.content, self.content_offset, node)
+
+        selected = node.get("selected", 0)
+        if self.env.app.builder.name in _compatible_builders:
+            tabbar.children[selected]['classes'].append('selected')
+            node.children[1 + selected]['classes'].append('selected')
+        else:
+            node.children[selected]['classes'].append('selected')
+
         return [node]
 
 
 class Tab(SphinxDirective):
+
+    option_spec = {
+        'selected': directives.flag,
+    }
 
     final_argument_whitespace = True
     required_arguments = 1
@@ -57,7 +69,8 @@ class Tab(SphinxDirective):
         is_supported = self.env.app.builder.name in _compatible_builders
         title = self.options.get('title')
         index = len(self.state.parent.children) - is_supported
-        selected = index == 0
+        if 'selected' in self.options:
+            self.state.parent['selected'] = index
         if not title:
             title = self.options.pop('caption', None)
         if not title and self.arguments:
@@ -69,8 +82,6 @@ class Tab(SphinxDirective):
             tabbutton = TabButton()
             tabbutton['index'] = index
             tabbutton['classes'].append("tabbutton")
-            if selected:
-                tabbutton['classes'].append('selected')
             tabbutton.append(nodes.Text(title))
             tabbar = self.state.parent.children[0]
             tabbar.append(tabbutton)
@@ -78,8 +89,6 @@ class Tab(SphinxDirective):
             outer = TabNode()
             outer['index'] = index
             outer['classes'].append('tab')
-            if not selected:
-                outer['classes'].append('hidden')
         else:
             self.options.setdefault('caption', title)
             outer = nodes.container()
@@ -98,9 +107,11 @@ class CodeTab(CodeBlock):
 
     """Single code-block tab inside .. code-tabs."""
 
-    option_spec = dict(
-        CodeBlock.option_spec,
-        title=directives.unchanged)
+    option_spec = CodeBlock.option_spec.copy()
+    option_spec.update({
+        'title': directives.unchanged,
+        'selected': directives.flag,
+    })
 
     run = Tab.run
 

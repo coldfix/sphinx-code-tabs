@@ -6,7 +6,7 @@ const sphinx_code_tabs_onclick = function(clicked) {
 	}
   for (const page of book.children) {
     if (page.hasAttribute('data-id')) {
-      page.classList.toggle('hidden', page.dataset.id != clicked.dataset.id);
+      page.classList.toggle('selected', page.dataset.id == clicked.dataset.id);
 		}
   }
 };

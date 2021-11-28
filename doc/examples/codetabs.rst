@@ -16,5 +16,6 @@
         print("Hello, *World*!")
 
     .. tab:: Output
+        :selected:
 
         Hello, *World*!

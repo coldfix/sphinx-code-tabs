@@ -47,6 +47,9 @@ The individual tabs are created with the ``tab`` or ``code-tab`` directives. A
 a ``code-block`` and accepts all corresponding arguments. Both types of tabs
 can appear in the same notebook.
 
+The ``:selected:`` option allows to switch to a specified tab at start. By
+default, the first tab is used.
+
 For example, this is the source of above example:
 
 .. literalinclude:: examples/codetabs.rst

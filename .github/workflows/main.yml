@@ -1,6 +1,8 @@
 on:
   push:
   pull_request:
+  schedule:
+    - cron: '35  9  *  *  1'
 
 jobs:
   build:

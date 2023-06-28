@@ -226,3 +226,8 @@ def setup(app):
     app.add_directive("code-tabs", TabsDirective)
     app.add_directive("code-tab", CodeTabDirective)
     app.connect("builder-inited", add_assets)
+
+    return {
+        "version": __version__,
+        "parallel_read_safe": True,
+    }

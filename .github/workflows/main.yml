@@ -9,10 +9,11 @@ jobs:
     strategy:
       matrix:
         python:
-          - "3.5"
-          - "3.6"
           - "3.7"
           - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
 
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +31,7 @@ jobs:
       - run: flake8
 
       - name: Publish PyPI package
-        if: startsWith(github.ref, 'refs/tags/v') && matrix.python == '3.8'
+        if: startsWith(github.ref, 'refs/tags/v') && matrix.python == '3.11'
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}

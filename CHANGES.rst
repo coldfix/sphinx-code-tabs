@@ -3,6 +3,13 @@ CHANGES
 
 v0.5.4
 ~~~~~~
+Date: 13.07.2023
+
+- no changes, release needed to trigger a new build
+
+
+v0.5.4
+~~~~~~
 Date: 28.06.2023
 
 - declare extension as safe for parallel reads (#6)
